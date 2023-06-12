@@ -28,7 +28,6 @@ public class ModbusTcpRead {
             //转换数据类型
             if (type.ordinal() == 0) {
                 float aFloat = parseModbusFloat(key, value);
-                //                    System.out.println("读取到4X区普通数："+i+"="+value);
                 //转化为浮点数值
                 if (i % 2 == 0) {
                     map.put(i,aFloat);
