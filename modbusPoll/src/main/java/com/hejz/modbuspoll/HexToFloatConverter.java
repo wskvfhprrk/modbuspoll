@@ -1,30 +1,47 @@
 package com.hejz.modbuspoll;
 
-import java.nio.ByteBuffer;
+import java.math.BigInteger;
 
+/**
+ * 冷量表的计算方法
+ */
 public class HexToFloatConverter {
-    public static float hexToFloat(String hexString) {
+    public static void main(String[] args) {
+        //E148AFFE
+        //DD2F871D
+        //AE146203
+        //0000EFB2
+        String hexData = "00610000";
+        float result = hexToFloat(hexData);
+        System.out.println("HexToFloat结果：" + result);
+        int  UnsignedShort = hexStringToUnsignedShort(hexData);
+        System.out.println("hexStringToUnsignedShort结果：" + UnsignedShort);
+        long longInverse = hexToLongInverse(hexData);
+        System.out.println("hexToLong结果：" + longInverse);
+    }
+
+    public static float hexToFloat(String hexData) {
+        int intValue = new BigInteger(hexData, 16).intValue();
+        return Float.intBitsToFloat(intValue);
+    }
+
+    public static int  hexStringToUnsignedShort(String hexString) {
+        // 移除前导的0字符
+        hexString = hexString.replaceFirst("^0+", "");
+
+        // 将十六进制字符串转换为整型
+        int intValue = Integer.parseInt(hexString, 16);
+
+        // 将整型值限制在无符号短整型的范围内
+        return intValue & 0xFFFF;
+    }
+    public static long hexToLongInverse(String hexString) {
         // 去除字符串中的空格
         hexString = hexString.replace(" ", "");
 
-        // 将字符串转换为字节数组
-        byte[] bytes = new byte[hexString.length() / 2];
-        for (int i = 0; i < bytes.length; i++) {
-            int index = i * 2;
-            bytes[i] = (byte) Integer.parseInt(hexString.substring(index, index + 2), 16);
-        }
+        // 将16进制字符串转换为长整型
+        long longValue = Long.parseLong(hexString, 16);
 
-        // 将字节数组转换为浮点数
-        float floatValue = ByteBuffer.wrap(bytes).getFloat();
-
-        return floatValue;
-    }
-
-    public static void main(String[] args) {
-        String hexString = "00 00 00 00".replaceAll(" ", "");
-
-        float floatValue = HexToFloatConverter.hexToFloat(hexString);
-
-        System.out.println("Float Value: " + floatValue);
+        return longValue;
     }
 }
