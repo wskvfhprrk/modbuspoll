@@ -27,39 +27,55 @@ public class ModbusTest {
         if (!master.isConnected()) {
             master.connect();// 开启连接
         }
+//        for (int i = 0; i < 15; i++) {
+//            Map<Integer, Object> map = ModbusTcpRead.extracted(master, 1, i * 50, 50, null);
+//            for (Map.Entry<Integer, Object> entry : map.entrySet()) {
+//                System.out.println(i + "," + (i*50+Integer.valueOf(entry.getKey())) + "," + entry.getValue());
+//            }
+//        }
         for (int i = 0; i < 71; i++) {
             try {
                 Map<Integer, Object> map = ModbusTcpRead.extracted(master, 1, i * 100, 100, ResultType.FLOAT);
                 for (Map.Entry<Integer, Object> entry : map.entrySet()) {
-//                    System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
-                    System.out.println(i+","+entry.getKey()+","+entry.getValue());
+                    System.out.println(i+","+(i*100+Integer.valueOf(entry.getKey()))+","+entry.getValue());
                 }
             }catch (Exception e){
                 if(e.getMessage().equals("ILLEGAL_DATA_ADDRESS: Exception Code = 2")){
                     System.out.println(i+",没有数据，不能解析,");
-//                    System.out.println("address=============="+i+" ；没有数据，不能解析");
                     continue;
                 }
                 e.printStackTrace();
             }
         }
-//        for (int i = 150; i < 154; i++) {
-//            try {
-//                Map<Integer, Object> map = ModbusTcpRead.extracted(master, 1, i * 100, 100, ResultType.INT);
-//                for (Map.Entry<Integer, Object> entry : map.entrySet()) {
-////                    System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
-//                    System.out.println(i+","+entry.getKey()+","+entry.getValue());
-//                }
-//            }catch (Exception e){
-//                if(e.getMessage().equals("ILLEGAL_DATA_ADDRESS: Exception Code = 2")){
-//                    System.out.println(i+",没有数据，不能解析,");
-////                    System.out.println("address=============="+i+" ；没有数据，不能解析");
-//                    continue;
-//                }
-//                e.printStackTrace();
-//            }
-//        }
+        for (int i = 150; i <= 153; i++) {
+            try {
+                Map<Integer, Object> map = ModbusTcpRead.extracted(master, 1, i * 100, 100, ResultType.LONG);
+                for (Map.Entry<Integer, Object> entry : map.entrySet()) {
+                    System.out.println(i+","+(i*100+Integer.valueOf(entry.getKey()))+","+entry.getValue());
+                }
+            }catch (Exception e){
+                if(e.getMessage().equals("ILLEGAL_DATA_ADDRESS: Exception Code = 2")){
+                    System.out.println(i+",没有数据，不能解析,");
+                    continue;
+                }
+                e.printStackTrace();
+            }
+        }
 
+        for (int i = 154; i < 155; i++) {
+            try {
+                Map<Integer, Object> map = ModbusTcpRead.extracted(master, 1, i, 84, ResultType.LONG);
+                for (Map.Entry<Integer, Object> entry : map.entrySet()) {
+                    System.out.println(i+","+(15400+Integer.valueOf(entry.getKey()))+","+entry.getValue());
+                }
+            }catch (Exception e){
+                if(e.getMessage().equals("ILLEGAL_DATA_ADDRESS: Exception Code = 2")){
+                    System.out.println(i+",没有数据，不能解析,");
+                    continue;
+                }
+                e.printStackTrace();
+            }
+        }
     }
 
 }

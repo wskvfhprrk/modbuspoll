@@ -11,7 +11,7 @@ public class HexToFloatConverter {
         //DD2F871D
         //AE146203
         //0000EFB2
-        String hexData = "00610000";
+        String hexData = "009f";
         float result = hexToFloat(hexData);
         System.out.println("HexToFloat结果：" + result);
         int  UnsignedShort = hexStringToUnsignedShort(hexData);
@@ -38,10 +38,8 @@ public class HexToFloatConverter {
     public static long hexToLongInverse(String hexString) {
         // 去除字符串中的空格
         hexString = hexString.replace(" ", "");
-
         // 将16进制字符串转换为长整型
         long longValue = Long.parseLong(hexString, 16);
-
         return longValue;
     }
 }
